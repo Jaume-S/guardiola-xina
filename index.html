@@ -6,7 +6,7 @@
     <title>Guardiola Viatge a Xina 🇨🇳</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Canvas Confetti per acelebracions -->
+    <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen pb-12">
@@ -19,7 +19,7 @@
             </h1>
             <div class="text-xs bg-red-700 px-3 py-1.5 rounded-full font-medium border border-red-500 shadow-inner flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                Sincronitzat en temps real
+                Guardiola Activa (iPad)
             </div>
         </div>
     </header>
@@ -64,14 +64,13 @@
                     <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2 mb-4">
                         <span>💡</span> Idees i Reptes d'Estalvi
                     </h2>
-                    <p class="text-xs text-slate-500 mb-4">Marqueu les idees a mesura que les porteu a terme per sumar forces:</p>
+                    <p class="text-xs text-slate-500 mb-4">Marqueu les idees a mesura que les porteu a terme:</p>
                     
                     <ul id="ideas-list" class="space-y-3">
                         <!-- Generat dinàmicament -->
                     </ul>
                 </div>
 
-                <!-- Add new idea form -->
                 <div class="mt-6 pt-4 border-t border-slate-100 flex gap-2">
                     <input type="text" id="new-idea-text" placeholder="Nova idea o repte..." class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
                     <input type="text" id="new-idea-est" placeholder="Estimat" class="w-20 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
@@ -92,7 +91,6 @@
                     </ul>
                 </div>
 
-                <!-- Add new travel spot form -->
                 <div class="mt-6 pt-4 border-t border-slate-100 flex gap-2">
                     <input type="text" id="new-travel-text" placeholder="Ex: Pujar a la torre de Xangai..." class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
                     <button onclick="addNewTravelItem()" class="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl text-sm font-medium transition shadow-sm">+</button>
@@ -107,7 +105,7 @@
     <div id="custom-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl space-y-4">
             <h3 class="text-lg font-bold text-slate-900">Afegir import a la guardiola</h3>
-            <p class="text-xs text-slate-500">Introdueix la quantitat d'euros que vols afegir o restar (posa negatiu si cal):</p>
+            <p class="text-xs text-slate-500">Introdueix la quantitat d'euros que vols afegir o restar:</p>
             <input type="number" id="custom-amount-input" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-lg font-bold text-center focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Ex: 25">
             <div class="flex gap-3 pt-2">
                 <button onclick="closeCustomModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl font-medium transition text-sm">Cancel·lar</button>
@@ -116,50 +114,35 @@
         </div>
     </div>
 
-    <!-- Script de sincronització amb npoint.io -->
+    <!-- Script de localStorage local -->
     <script>
-        const BIN_ID = "84d481a403796a8ae93b";
-        const API_URL = `https://api.npoint.io/${BIN_ID}`;
-
-        let appData = {
+        let appData = JSON.parse(localStorage.getItem('guardiola_xina_data')) || {
             total: 0,
-            idees: [],
-            viatge: []
+            idees: [
+                {id: 1, text: "Venda de segona mà a Vinted i Wallapop", completat: false, estimat: "150 €"},
+                {id: 2, text: "Reduir un 20% de consum d'energia a casa", completat: false, estimat: "80 €"},
+                {id: 3, text: "Classes particulars o cangurs puntuals", completat: false, estimat: "100 €"},
+                {id: 4, text: "Dia sense cap despesa supèrflua a la setmana", completat: false, estimat: "50 €"}
+            ],
+            viatge: [
+                {id: 1, text: "Visitar la Gran Muralla Xina a Pequín", completat: false},
+                {id: 2, text: "Veure els Guerrers de Terracota a Xi'an", completat: false},
+                {id: 3, text: "Anar a veure els pandes gegants a Chengdu", completat: false},
+                {id: 4, text: "Passejar pel Bund de Xangai de nit", completat: false}
+            ]
         };
 
-        // Carregar dades del núvol
-        async function fetchData() {
-            try {
-                const response = await fetch(API_URL);
-                if (response.ok) {
-                    appData = await response.json();
-                    render();
-                }
-            } catch (error) {
-                console.error("Error carregant dades:", error);
-            }
+        function saveData() {
+            localStorage.setItem('guardiola_xina_data', JSON.stringify(appData));
+            render();
         }
 
-        // Guardar dades al núvol
-        async function saveData() {
-            try {
-                await fetch(API_URL, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(appData)
-                });
-                render();
-            } catch (error) {
-                console.error("Error guardant dades:", error);
-            }
-        }
-
-        async function addMoney(amount) {
-            appData.total = Math.max(0, appData.total + amount);
+        function addMoney(amount) {
+            appData.total = Math.max(0, (appData.total || 0) + amount);
             if (amount > 0 && appData.total >= 5000) {
                 triggerConfetti();
             }
-            await saveData();
+            saveData();
         }
 
         function openCustomModal() {
@@ -174,21 +157,21 @@
             document.getElementById('custom-amount-input').value = '';
         }
 
-        async function submitCustomAmount() {
+        function submitCustomAmount() {
             const input = document.getElementById('custom-amount-input');
             const val = parseFloat(input.value);
             if (!isNaN(val)) {
-                await addMoney(val);
+                addMoney(val);
                 closeCustomModal();
             }
         }
 
-        async function toggleIdea(id) {
+        function toggleIdea(id) {
             appData.idees = appData.idees.map(item => item.id === id ? { ...item, completat: !item.completat } : item);
-            await saveData();
+            saveData();
         }
 
-        async function addNewIdea() {
+        function addNewIdea() {
             const textInput = document.getElementById('new-idea-text');
             const estInput = document.getElementById('new-idea-est');
             if (textInput.value.trim() !== '') {
@@ -201,16 +184,16 @@
                 });
                 textInput.value = '';
                 estInput.value = '';
-                await saveData();
+                saveData();
             }
         }
 
-        async function toggleTravel(id) {
+        function toggleTravel(id) {
             appData.viatge = appData.viatge.map(item => item.id === id ? { ...item, completat: !item.completat } : item);
-            await saveData();
+            saveData();
         }
 
-        async function addNewTravelItem() {
+        function addNewTravelItem() {
             const textInput = document.getElementById('new-travel-text');
             if (textInput.value.trim() !== '') {
                 const newId = appData.viatge.length > 0 ? Math.max(...appData.viatge.map(i => i.id)) + 1 : 1;
@@ -220,7 +203,7 @@
                     completat: false
                 });
                 textInput.value = '';
-                await saveData();
+                saveData();
             }
         }
 
@@ -265,9 +248,8 @@
             });
         }
 
-        // Carregar dades inicials i actualitzar cada 5 segons automàticament
-        fetchData();
-        setInterval(fetchData, 5000);
+        // Inicialitzar
+        render();
     </script>
 </body>
 </html>

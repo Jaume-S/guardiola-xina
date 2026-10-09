@@ -3,498 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guardiola Xina - Família</title>
+    <title>Guardiola Viatge a Xina 🇨🇳</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Canvas Confetti for celebrations -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <!-- FontAwesome icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
+    <!-- Canvas Confetti per acelebracions -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-red-500 selection:text-white">
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen pb-12">
 
-    <header class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <div class="bg-gradient-to-tr from-red-600 to-amber-500 text-white p-3 rounded-2xl shadow-lg shadow-red-600/30">
-                    <i class="fa-solid fa-dragon text-xl"></i>
-                </div>
-                <div>
-                    <h1 class="text-xl font-black tracking-tight text-white flex items-center gap-2">
-                        Guardiola Xina 🇨🇳
-                        <span class="text-xs bg-red-500/20 text-red-400 border border-red-500/30 px-2.5 py-1 rounded-full font-bold">Família (5)</span>
-                    </h1>
-                    <p class="text-xs text-slate-400">Objectiu Col·lectiu: 5.000 €</p>
-                </div>
-            </div>
-            
-            <div class="flex items-center gap-4 bg-slate-900 border border-slate-800 px-5 py-2.5 rounded-2xl shadow-inner">
-                <div class="text-right">
-                    <p class="text-[11px] text-slate-400 font-medium uppercase tracking-wider">Total Estalviat</p>
-                    <p class="text-lg font-black text-emerald-400" id="header-total">0 €</p>
-                </div>
-                <div class="h-8 w-px bg-slate-800"></div>
-                <div>
-                    <p class="text-[11px] text-slate-400 font-medium uppercase tracking-wider">Progrés</p>
-                    <p class="text-lg font-black text-amber-400" id="header-percent">0%</p>
-                </div>
+    <!-- Header -->
+    <header class="bg-red-600 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold flex items-center gap-2">
+                <span>🇨🇳</span> Ruta a Xina en Família
+            </h1>
+            <div class="text-xs bg-red-700 px-3 py-1.5 rounded-full font-medium border border-red-500 shadow-inner flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Sincronitzat en temps real
             </div>
         </div>
     </header>
 
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <main class="max-w-4xl mx-auto px-4 mt-6 space-y-6">
 
-        <!-- Left Column: Piggy Bank & Quick Actions (5 cols) -->
-        <div class="lg:col-span-5 space-y-6">
-
-            <!-- Main Savings Card -->
-            <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-900/80 border border-slate-800 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
-                <div class="absolute -right-6 -bottom-6 text-slate-800/30 text-9xl pointer-events-none">
-                    <i class="fa-solid fa-piggy-bank"></i>
-                </div>
-                
-                <div class="flex justify-between items-start mb-6 relative z-10">
-                    <div>
-                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-vault text-red-500"></i> Fons Comú Únic
-                        </h2>
-                        <p class="text-xs text-slate-400">Tots sumem a la mateixa guardiola</p>
-                    </div>
-                    <button onclick="resetData()" class="text-xs text-slate-500 hover:text-red-400 transition bg-slate-800/60 px-3 py-1.5 rounded-xl border border-slate-700/50" title="Reiniciar dades">
-                        <i class="fa-solid fa-rotate-right mr-1"></i> Reiniciar
-                    </button>
-                </div>
-
-                <!-- Big Numbers Display -->
-                <div class="grid grid-cols-2 gap-4 mb-6 relative z-10">
-                    <div class="bg-slate-950/60 border border-slate-800/80 p-4 rounded-2xl">
-                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Acumulat</span>
-                        <div class="text-3xl font-black text-emerald-400 mt-1" id="display-total">0 €</div>
-                    </div>
-                    <div class="bg-slate-950/60 border border-slate-800/80 p-4 rounded-2xl">
-                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Objectiu</span>
-                        <div class="text-3xl font-black text-slate-200 mt-1">5.000 €</div>
-                    </div>
-                </div>
-
-                <!-- Progress Bar -->
-                <div class="space-y-2.5 relative z-10 mb-6">
-                    <div class="flex justify-between text-sm font-medium">
-                        <span id="progress-status-text" class="text-slate-300">Començant l'estalvi...</span>
-                        <span id="display-percent" class="text-amber-400 font-extrabold">0%</span>
-                    </div>
-                    <div class="h-5 w-full bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800">
-                        <div id="progress-bar-fill" class="h-full bg-gradient-to-r from-red-600 via-amber-500 to-emerald-500 rounded-full transition-all duration-700" style="width: 0%"></div>
-                    </div>
-                </div>
-
-                <!-- Quick Buttons to Add/Remove -->
-                <div class="space-y-3 relative z-10">
-                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Sumar Ràpid al Pot</p>
-                    <div class="grid grid-cols-4 gap-2">
-                        <button onclick="quickAdd(10)" class="bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-emerald-400 font-bold py-3 rounded-xl transition text-sm">+10 €</button>
-                        <button onclick="quickAdd(50)" class="bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-emerald-400 font-bold py-3 rounded-xl transition text-sm">+50 €</button>
-                        <button onclick="quickAdd(100)" class="bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-emerald-400 font-bold py-3 rounded-xl transition text-sm">+100 €</button>
-                        <button onclick="openCustomModal()" class="bg-red-600/20 hover:bg-red-600/30 active:scale-95 border border-red-500/30 text-red-400 font-bold py-3 rounded-xl transition text-sm">Personalitzat</button>
-                    </div>
-                </div>
+        <!-- Target & Progress Card -->
+        <section class="bg-white rounded-2xl shadow-md p-6 border border-slate-100 text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-red-500 to-amber-400"></div>
+            
+            <p class="text-slate-500 font-medium text-sm uppercase tracking-wider">Objectiu Total del Viatge</p>
+            <div class="text-4xl md:text-5xl font-extrabold text-slate-900 my-2">
+                <span id="total-saved">0</span> € <span class="text-slate-300 text-2xl font-normal">/ <span id="target-amount">5000</span> €</span>
             </div>
 
-            <!-- Recent History Card -->
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-base font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-clock-rotate-left text-amber-500"></i> Moviments Recents
-                    </h3>
-                    <span class="text-xs text-slate-500" id="history-count">0 moviments</span>
-                </div>
-                <div class="space-y-2.5 max-h-60 overflow-y-auto hide-scrollbar" id="history-list">
-                    <!-- Populated via JS -->
-                </div>
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-100 rounded-full h-4 mt-4 overflow-hidden p-0.5 shadow-inner">
+                <div id="progress-bar" class="bg-gradient-to-r from-red-500 to-amber-500 h-full rounded-full transition-all duration-700" style="width: 0%"></div>
+            </div>
+            <div class="flex justify-between text-xs text-slate-400 mt-2 font-medium">
+                <span>0%</span>
+                <span id="progress-percentage">0% assolit</span>
+                <span>100%</span>
             </div>
 
-        </div>
+            <!-- Quick Add / Remove Money Controls -->
+            <div class="mt-6 pt-6 border-t border-slate-100 flex flex-wrap justify-center gap-3">
+                <button onclick="addMoney(10)" class="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold px-4 py-2 rounded-xl border border-emerald-200 transition text-sm">+ 10 €</button>
+                <button onclick="addMoney(50)" class="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold px-4 py-2 rounded-xl border border-emerald-200 transition text-sm">+ 50 €</button>
+                <button onclick="addMoney(100)" class="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold px-4 py-2 rounded-xl border border-emerald-200 transition text-sm">+ 100 €</button>
+                <button onclick="addMoney(500)" class="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold px-4 py-2 rounded-xl border border-emerald-200 transition text-sm">+ 500 €</button>
+                <button onclick="openCustomModal()" class="bg-slate-900 text-white hover:bg-slate-800 font-semibold px-4 py-2 rounded-xl transition text-sm shadow-sm">Altre import</button>
+            </div>
+        </section>
 
-        <!-- Right Column: Ideas, Challenges & Travel Brainstorming Board (7 cols) -->
-        <div class="lg:col-span-7 space-y-6">
+        <!-- Grid for Ideas & Itinerary Brainstorming -->
+        <div class="grid md:grid-cols-2 gap-6">
 
             <!-- Ideas & Challenges Section -->
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl">
-                <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
-                    <div>
-                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-lightbulb text-yellow-400"></i> Idees i Reptes per aconseguir diners
-                        </h2>
-                        <p class="text-xs text-slate-400">Marca les idees fetes o afegeix-ne de noves</p>
-                    </div>
-                    <button onclick="openNewIdeaModal()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-amber-500/20">
-                        <i class="fa-solid fa-plus"></i> Nova Idea
-                    </button>
+            <section class="bg-white rounded-2xl shadow-md p-6 border border-slate-100 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2 mb-4">
+                        <span>💡</span> Idees i Reptes d'Estalvi
+                    </h2>
+                    <p class="text-xs text-slate-500 mb-4">Marqueu les idees a mesura que les porteu a terme per sumar forces:</p>
+                    
+                    <ul id="ideas-list" class="space-y-3">
+                        <!-- Generat dinàmicament -->
+                    </ul>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5" id="ideas-grid">
-                    <!-- Populated via JS -->
+                <!-- Add new idea form -->
+                <div class="mt-6 pt-4 border-t border-slate-100 flex gap-2">
+                    <input type="text" id="new-idea-text" placeholder="Nova idea o repte..." class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+                    <input type="text" id="new-idea-est" placeholder="Estimat" class="w-20 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+                    <button onclick="addNewIdea()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition shadow-sm">+</button>
                 </div>
-            </div>
+            </section>
 
             <!-- Flexible Travel Brainstorming Board -->
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl">
-                <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
-                    <div>
-                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-map-location-dot text-red-500"></i> Tauler d'Idees del Viatge (Pendent de definir)
-                        </h2>
-                        <p class="text-xs text-slate-400">Llocs i experiències que ens agradaria fer a la Xina</p>
-                    </div>
-                    <button onclick="openNewWishModal()" class="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-red-600/20">
-                        <i class="fa-solid fa-plus"></i> Afegir Lloc/Desig
-                    </button>
+            <section class="bg-white rounded-2xl shadow-md p-6 border border-slate-100 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2 mb-4">
+                        <span>🗺️</span> Llocs i Desitjos del Viatge
+                    </h2>
+                    <p class="text-xs text-slate-500 mb-4">Punts clau de la ruta per debatre i definir:</p>
+                    
+                    <ul id="travel-list" class="space-y-3">
+                        <!-- Generat dinàmicament -->
+                    </ul>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5" id="wishes-grid">
-                    <!-- Populated via JS -->
+                <!-- Add new travel spot form -->
+                <div class="mt-6 pt-4 border-t border-slate-100 flex gap-2">
+                    <input type="text" id="new-travel-text" placeholder="Ex: Pujar a la torre de Xangai..." class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+                    <button onclick="addNewTravelItem()" class="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl text-sm font-medium transition shadow-sm">+</button>
                 </div>
-            </div>
+            </section>
 
         </div>
 
     </main>
 
-    <!-- Custom Contribution Modal -->
-    <div id="modal-custom" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl animate-in fade-in zoom-in duration-200">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-white">Afegir Import Personalitzat</h3>
-                <button onclick="closeModal('modal-custom')" class="text-slate-400 hover:text-white p-2">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
+    <!-- Modal per a import personalitzat -->
+    <div id="custom-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl space-y-4">
+            <h3 class="text-lg font-bold text-slate-900">Afegir import a la guardiola</h3>
+            <p class="text-xs text-slate-500">Introdueix la quantitat d'euros que vols afegir o restar (posa negatiu si cal):</p>
+            <input type="number" id="custom-amount-input" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-lg font-bold text-center focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Ex: 25">
+            <div class="flex gap-3 pt-2">
+                <button onclick="closeCustomModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl font-medium transition text-sm">Cancel·lar</button>
+                <button onclick="submitCustomAmount()" class="flex-1 bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-xl font-medium transition text-sm shadow-sm">Afegir</button>
             </div>
-            
-            <form onsubmit="submitCustomContribution(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-400 uppercase mb-2">Concepte o Origen</label>
-                    <input type="text" id="custom-note" placeholder="Ex: Venda de llibres, aniversari, estalvi..." required
-                        class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-red-500 text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-400 uppercase mb-2">Quantitat (€)</label>
-                    <input type="number" id="custom-amount" placeholder="25" min="1" step="any" required
-                        class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-red-500 text-sm">
-                </div>
-                <div class="pt-2 flex gap-3">
-                    <button type="button" onclick="closeModal('modal-custom')" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white font-medium py-3 rounded-xl transition text-sm">Cancel·lar</button>
-                    <button type="submit" class="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-red-600/30 transition text-sm">Afegir al Pot</button>
-                </div>
-            </form>
         </div>
     </div>
 
-    <!-- New Idea Modal -->
-    <div id="modal-idea" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-white">Nova Idea / Repte d'Estalvi</h3>
-                <button onclick="closeModal('modal-idea')" class="text-slate-400 hover:text-white p-2">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            <form onsubmit="submitNewIdea(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-400 uppercase mb-2">Títol de la Idea</label>
-                    <input type="text" id="idea-title" placeholder="Ex: Fer cangur a veïns" required
-                        class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-amber-500 text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-400 uppercase mb-2">Categoria</label>
-                    <select id="idea-category" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 text-sm">
-                        <option value="feines">Feines i Serveis</option>
-                        <option value="venda">Venda Segona Mà</option>
-                        <option value="casa">Estalvi a Casa</option>
-                        <option value="altres">Altres Reptes</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-400 uppercase mb-2">Estimació d'estalvi (€)</label>
-                    <input type="number" id="idea-est" placeholder="100" min="0" required
-                        class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-amber-500 text-sm">
-                </div>
-                <div class="pt-2 flex gap-3">
-                    <button type="button" onclick="closeModal('modal-idea')" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white font-medium py-3 rounded-xl transition text-sm">Cancel·lar</button>
-                    <button type="submit" class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl shadow-lg shadow-amber-500/20 transition text-sm">Crear Idea</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- New Wish Modal -->
-    <div id="modal-wish" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-white">Nou Lloc o Desig a la Xina</h3>
-                <button onclick="closeModal('modal-wish')" class="text-slate-400 hover:text-white p-2">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            <form onsubmit="submitNewWish(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-400 uppercase mb-2">Lloc o Experiència</label>
-                    <input type="text" id="wish-title" placeholder="Ex: Veure els pandes a Chengdu" required
-                        class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-red-500 text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-400 uppercase mb-2">Breu descripció</label>
-                    <input type="text" id="wish-desc" placeholder="Ex: Anar d'hora al matí a veure'ls menjar" required
-                        class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-red-500 text-sm">
-                </div>
-                <div class="pt-2 flex gap-3">
-                    <button type="button" onclick="closeModal('modal-wish')" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white font-medium py-3 rounded-xl transition text-sm">Cancel·lar</button>
-                    <button type="submit" class="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-red-600/30 transition text-sm">Afegir al Tauler</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
+    <!-- Script de sincronització amb npoint.io -->
     <script>
-        const STORAGE_KEY = 'guardiola_xina_5000_v1';
+        const BIN_ID = "84d481a403796a8ae93b";
+        const API_URL = `https://api.npoint.io/${BIN_ID}`;
 
-        const defaultData = {
+        let appData = {
             total: 0,
-            history: [],
-            ideas: [
-                { id: 1, title: 'Venda de roba i llibres a Vinted / Wallapop', category: 'venda', est: 250, completed: false },
-                { id: 2, title: 'Petites feines de cangur o classes de repàs', category: 'feines', est: 400, completed: false },
-                { id: 3, title: 'Reduir un 20% consums superflus a casa', category: 'casa', est: 300, completed: false },
-                { id: 4, title: 'Destinar regals d’aniversari al pot comú', category: 'altres', est: 500, completed: false }
-            ],
-            wishes: [
-                { id: 1, title: 'La Gran Muralla Xina', desc: 'Caminar per zones menys massificades' },
-                { id: 2, title: 'Pandes Gigants a Chengdu', desc: 'Veure’ls ben actius de bon matí' },
-                { id: 3, title: 'El Bund de Xangai', desc: 'Veure els gratacels il·luminats de nit' },
-                { id: 4, title: 'Riu Li a Guilin', desc: 'Passeig en bassa de bambú entre muntanyes' }
-            ]
+            idees: [],
+            viatge: []
         };
 
-        let appData = loadData();
-
-        function loadData() {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            if (saved) {
-                try { return JSON.parse(saved); } catch (e) { console.error(e); }
-            }
-            return JSON.parse(JSON.stringify(defaultData));
-        }
-
-        function saveData() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
-            render();
-        }
-
-        function resetData() {
-            if (confirm("Segur que vols reiniciar totes les dades de la guardiola?")) {
-                appData = JSON.parse(JSON.stringify(defaultData));
-                saveData();
+        // Carregar dades del núvol
+        async function fetchData() {
+            try {
+                const response = await fetch(API_URL);
+                if (response.ok) {
+                    appData = await response.json();
+                    render();
+                }
+            } catch (error) {
+                console.error("Error carregant dades:", error);
             }
         }
 
-        // Core Functions
-        function quickAdd(amount) {
-            appData.total += amount;
-            appData.history.unshift({
-                note: `Ingrés ràpid (${amount >= 0 ? '+' : ''}${amount} €)`,
-                amount: amount,
-                date: new Date().toLocaleDateString('ca-ES', { day: '2-digit', month: '2-digit' })
-            });
-
-            if (appData.total >= 5000) triggerConfetti();
-            saveData();
-        }
-
-        function submitCustomContribution(event) {
-            event.preventDefault();
-            const note = document.getElementById('custom-note').value;
-            const amount = parseFloat(document.getElementById('custom-amount').value);
-
-            if (isNaN(amount) || amount <= 0) return;
-
-            appData.total += amount;
-            appData.history.unshift({
-                note: note,
-                amount: amount,
-                date: new Date().toLocaleDateString('ca-ES', { day: '2-digit', month: '2-digit' })
-            });
-
-            if (appData.total >= 5000) triggerConfetti();
-            saveData();
-            closeModal('modal-custom');
-        }
-
-        function toggleIdea(id) {
-            const idea = appData.ideas.find(i => i.id === id);
-            if (idea) {
-                idea.completed = !idea.completed;
-                saveData();
+        // Guardar dades al núvol
+        async function saveData() {
+            try {
+                await fetch(API_URL, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(appData)
+                });
+                render();
+            } catch (error) {
+                console.error("Error guardant dades:", error);
             }
         }
 
-        function submitNewIdea(event) {
-            event.preventDefault();
-            const title = document.getElementById('idea-title').value;
-            const category = document.getElementById('idea-category').value;
-            const est = parseFloat(document.getElementById('idea-est').value) || 0;
-
-            appData.ideas.push({
-                id: Date.now(),
-                title,
-                category,
-                est,
-                completed: false
-            });
-
-            saveData();
-            closeModal('modal-idea');
-        }
-
-        function submitNewWish(event) {
-            event.preventDefault();
-            const title = document.getElementById('wish-title').value;
-            const desc = document.getElementById('wish-desc').value;
-
-            appData.wishes.push({
-                id: Date.now(),
-                title,
-                desc
-            });
-
-            saveData();
-            closeModal('modal-wish');
-        }
-
-        function removeWish(id) {
-            appData.wishes = appData.wishes.filter(w => w.id !== id);
-            saveData();
+        async function addMoney(amount) {
+            appData.total = Math.max(0, appData.total + amount);
+            if (amount > 0 && appData.total >= 5000) {
+                triggerConfetti();
+            }
+            await saveData();
         }
 
         function openCustomModal() {
-            document.getElementById('custom-note').value = '';
-            document.getElementById('custom-amount').value = '';
-            document.getElementById('modal-custom').classList.remove('hidden');
+            document.getElementById('custom-modal').classList.remove('hidden');
+            document.getElementById('custom-modal').classList.add('flex');
+            document.getElementById('custom-amount-input').focus();
         }
 
-        function openNewIdeaModal() {
-            document.getElementById('idea-title').value = '';
-            document.getElementById('idea-est').value = '';
-            document.getElementById('modal-idea').classList.remove('hidden');
+        function closeCustomModal() {
+            document.getElementById('custom-modal').classList.remove('flex');
+            document.getElementById('custom-modal').classList.add('hidden');
+            document.getElementById('custom-amount-input').value = '';
         }
 
-        function openNewWishModal() {
-            document.getElementById('wish-title').value = '';
-            document.getElementById('wish-desc').value = '';
-            document.getElementById('modal-wish').classList.remove('hidden');
+        async function submitCustomAmount() {
+            const input = document.getElementById('custom-amount-input');
+            const val = parseFloat(input.value);
+            if (!isNaN(val)) {
+                await addMoney(val);
+                closeCustomModal();
+            }
         }
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
+        async function toggleIdea(id) {
+            appData.idees = appData.idees.map(item => item.id === id ? { ...item, completat: !item.completat } : item);
+            await saveData();
+        }
+
+        async function addNewIdea() {
+            const textInput = document.getElementById('new-idea-text');
+            const estInput = document.getElementById('new-idea-est');
+            if (textInput.value.trim() !== '') {
+                const newId = appData.idees.length > 0 ? Math.max(...appData.idees.map(i => i.id)) + 1 : 1;
+                appData.idees.push({
+                    id: newId,
+                    text: textInput.value.trim(),
+                    completat: false,
+                    estimat: estInput.value.trim() || 'Estimat'
+                });
+                textInput.value = '';
+                estInput.value = '';
+                await saveData();
+            }
+        }
+
+        async function toggleTravel(id) {
+            appData.viatge = appData.viatge.map(item => item.id === id ? { ...item, completat: !item.completat } : item);
+            await saveData();
+        }
+
+        async function addNewTravelItem() {
+            const textInput = document.getElementById('new-travel-text');
+            if (textInput.value.trim() !== '') {
+                const newId = appData.viatge.length > 0 ? Math.max(...appData.viatge.map(i => i.id)) + 1 : 1;
+                appData.viatge.push({
+                    id: newId,
+                    text: textInput.value.trim(),
+                    completat: false
+                });
+                textInput.value = '';
+                await saveData();
+            }
+        }
+
+        function render() {
+            const target = 5000;
+            const total = appData.total || 0;
+            const percentage = Math.min(100, Math.round((total / target) * 100));
+
+            document.getElementById('total-saved').innerText = total.toLocaleString();
+            document.getElementById('progress-bar').style.width = percentage + '%';
+            document.getElementById('progress-percentage').innerText = percentage + '% assolit';
+
+            // Render idees
+            const ideesList = document.getElementById('ideas-list');
+            ideesList.innerHTML = appData.idees.map(item => `
+                <li class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 hover:bg-slate-100/50 transition">
+                    <label class="flex items-center gap-3 cursor-pointer flex-1">
+                        <input type="checkbox" ${item.completat ? 'checked' : ''} onchange="toggleIdea(${item.id})" class="w-4 h-4 text-red-600 rounded border-slate-300 focus:ring-red-500">
+                        <span class="text-sm font-medium ${item.completat ? 'line-through text-slate-400' : 'text-slate-700'}">${item.text}</span>
+                    </label>
+                    <span class="text-xs font-semibold px-2.5 py-1 bg-white rounded-lg border border-slate-200 text-slate-600 shadow-xs">${item.estimat}</span>
+                </li>
+            `).join('');
+
+            // Render viatge
+            const travelList = document.getElementById('travel-list');
+            travelList.innerHTML = appData.viatge.map(item => `
+                <li class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 hover:bg-slate-100/50 transition">
+                    <label class="flex items-center gap-3 cursor-pointer flex-1">
+                        <input type="checkbox" ${item.completat ? 'checked' : ''} onchange="toggleTravel(${item.id})" class="w-4 h-4 text-slate-900 rounded border-slate-300 focus:ring-slate-900">
+                        <span class="text-sm font-medium ${item.completat ? 'line-through text-slate-400' : 'text-slate-700'}">${item.text}</span>
+                    </label>
+                </li>
+            `).join('');
         }
 
         function triggerConfetti() {
-            if (typeof confetti === 'function') {
-                confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
-            }
-        }
-
-        // Render UI
-        function render() {
-            const total = appData.total;
-            const target = 5000;
-            const percent = Math.min(Math.round((total / target) * 100), 100);
-
-            // Header stats
-            document.getElementById('header-total').innerText = total.toLocaleString() + ' €';
-            document.getElementById('header-percent').innerText = percent + '%';
-
-            // Dashboard
-            document.getElementById('display-total').innerText = total.toLocaleString() + ' €';
-            document.getElementById('display-percent').innerText = percent + '%';
-            document.getElementById('progress-bar-fill').style.width = percent + '%';
-
-            let statusText = "Començant l'aventura cap a la Xina!";
-            if (percent >= 100) statusText = "¡OBJECTIU ASSOLIT! 5.000 € aconseguits! ✈️🇨🇳";
-            else if (percent >= 75) statusText = "Recta final, gairebé ho tenim!";
-            else if (percent >= 50) statusText = "Hem passat l'equodor del pot!";
-            else if (percent >= 25) statusText = "Bon ritme d'estalvi familiar!";
-            document.getElementById('progress-status-text').innerText = statusText;
-
-            // History list
-            const historyList = document.getElementById('history-list');
-            historyList.innerHTML = '';
-            document.getElementById('history-count').innerText = `${appData.history.length} moviments`;
-            
-            if (appData.history.length === 0) {
-                historyList.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Encara no hi ha moviments registrats.</p>`;
-            } else {
-                appData.history.forEach(item => {
-                    historyList.innerHTML += `
-                        <div class="bg-slate-950/50 border border-slate-800/60 p-3 rounded-2xl flex justify-between items-center text-xs">
-                            <div>
-                                <p class="font-bold text-slate-200">${item.note}</p>
-                                <span class="text-[10px] text-slate-500">${item.date}</span>
-                            </div>
-                            <span class="font-extrabold text-emerald-400">+${item.amount.toLocaleString()} €</span>
-                        </div>
-                    `;
-                });
-            }
-
-            // Ideas grid
-            const ideasGrid = document.getElementById('ideas-grid');
-            ideasGrid.innerHTML = '';
-            appData.ideas.forEach(idea => {
-                ideasGrid.innerHTML += `
-                    <div class="bg-slate-950/60 border ${idea.completed ? 'border-emerald-500/40 bg-emerald-500/5' : 'border-slate-800'} p-4 rounded-2xl flex items-start justify-between gap-3 transition">
-                        <div class="flex items-start gap-3">
-                            <button onclick="toggleIdea(${idea.id})" class="mt-0.5 w-6 h-6 rounded-lg border ${idea.completed ? 'bg-emerald-500 border-emerald-500 text-slate-950' : 'border-slate-700 bg-slate-900'} flex items-center justify-center transition shrink-0">
-                                ${idea.completed ? '<i class="fa-solid fa-check text-xs font-bold"></i>' : ''}
-                            </button>
-                            <div>
-                                <h4 class="text-xs font-bold ${idea.completed ? 'line-through text-slate-500' : 'text-white'}">${idea.title}</h4>
-                                <p class="text-[11px] text-slate-400 mt-0.5">Estimat: <span class="text-amber-400 font-semibold">+${idea.est} €</span></p>
-                            </div>
-                        </div>
-                        <span class="text-[10px] px-2 py-0.5 rounded-full font-semibold ${idea.completed ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-400'}">
-                            ${idea.completed ? 'Fet' : 'Pendent'}
-                        </span>
-                    </div>
-                `;
-            });
-
-            // Wishes grid
-            const wishesGrid = document.getElementById('wishes-grid');
-            wishesGrid.innerHTML = '';
-            appData.wishes.forEach(wish => {
-                wishesGrid.innerHTML += `
-                    <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-2xl flex flex-col justify-between relative group">
-                        <button onclick="removeWish(${wish.id})" class="absolute top-3 right-3 text-slate-600 hover:text-red-400 text-xs transition">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                        <div>
-                            <h4 class="text-xs font-bold text-white pr-6">${wish.title}</h4>
-                            <p class="text-[11px] text-slate-400 mt-1">${wish.desc}</p>
-                        </div>
-                    </div>
-                `;
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
             });
         }
 
-        window.onload = function() {
-            render();
-        }
+        // Carregar dades inicials i actualitzar cada 5 segons automàticament
+        fetchData();
+        setInterval(fetchData, 5000);
     </script>
 </body>
 </html>
